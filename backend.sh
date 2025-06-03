@@ -66,10 +66,10 @@ rm -rf /app/* &>>$LOG_FILE_NAME
 VALIDATE $? "Deleting existing content in /app directory"
 
 cd /app &>>$LOG_FILE_NAME
-VALIDATE $? "redirect to /app"
+VALIDATE $? "redirect to /app directory"
 
 unzip /tmp/backend.zip &>>$LOG_FILE_NAME
-VALIDATE $? "unziping the content to /app directory"
+VALIDATE $? "unziping the content on /app directory"
 
 npm install &>>$LOG_FILE_NAME
 VALIDATE $? "npm install.. installing dependencies"
