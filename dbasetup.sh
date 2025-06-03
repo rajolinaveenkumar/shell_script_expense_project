@@ -18,6 +18,7 @@ VALIDATE(){
     if [ $1 -ne 0 ]
     then
         echo -e "$R  $2 is ............FAILURE $N"
+        exit 1
     else
         echo -e "$G Installing $2 is ............SUCCESS $N"
     fi
