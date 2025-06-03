@@ -38,32 +38,32 @@ CHECK_USER(){
 
 CHECK_USER
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>>$LOG_FILE_NAME
 VALIDATE $? "Disabling existing default NodeJS"
 
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>>$LOG_FILE_NAME
 VALIDATE $? "enabling nodejs:20"
 
-dnf install nodejs -y
+dnf install nodejs -y &>>$LOG_FILE_NAME
 VALIDATE $? "installing nodejs"
 
-id expense
+id expense &>>$LOG_FILE_NAME
 if [ $? -ne 0 ]
 then
-    useradd --system --home /app --shell /sbin/nologin --comment "expense user" expense
+    useradd --system --home /app --shell /sbin/nologin --comment "expense user" expense &>>$LOG_FILE_NAME
     VALIDATE $? "Creating expense user"
 else
     echo -e "$Y expense user is allready exist $N"
 fi
 
-mkdir -p /app
+mkdir -p /app &>>$LOG_FILE_NAME
 VALIDATE $? "creating app directory"
 
-curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE_NAME
 VALIDATE $? "expense content download"
 
-cd /app
+cd /app &>>$LOG_FILE_NAME
 VALIDATE $? "redirect to /app"
 
-rm -rf /app/*
+rm -rf /app/* &>>$LOG_FILE_NAME
 VALIDATE $? "Deleting existing content in /app directory"
