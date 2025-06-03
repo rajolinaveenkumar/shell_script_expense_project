@@ -20,7 +20,7 @@ VALIDATE(){
         echo -e "$R  $2 is ............FAILURE $N"
         exit 1
     else
-        echo -e "$G Installing $2 is ............SUCCESS $N"
+        echo -e "$G $2 is ............SUCCESS $N"
     fi
 }
 
@@ -57,4 +57,15 @@ VALIDATE $? "start MYSQL service"
 echo "Please enter your database password::"
 read -s PASSWORD
 echo "please enter your pswd: $PASSWORD"
+
+mysql -h 172.31.37.235 -u root -p$PASSWORD -e 'show databases;' &>>$LOG_FILE_NAME
+
+if [ $? -ne 0 ]
+then
+    echo -e "$Y mysql root password not set $N"
+    mysql_secure_installation --set-root-pass $PASSWORD &>>$LOG_FILE_NAME
+    VALIDATE $? "setting mysql root password"
+else
+    echo -e " $Y MYSQL ROOT PASSWORD ALLREADY SET!!!!! $N"
+fi
 
