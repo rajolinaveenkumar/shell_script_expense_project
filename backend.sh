@@ -74,16 +74,16 @@ VALIDATE $? "unziping the content in /app directory"
 npm install &>>$LOG_FILE_NAME
 VALIDATE $? "npm install.. installing dependencies"
 
-cp /home/ec2-user/shell_script_expense_project/backend.service /etc/systemd/system/backend.service
+cp /home/ec2-user/shell_script_expense_project/backend.service /etc/systemd/system/backend.service  &>>$LOG_FILE_NAME
 VALIDATE $? "backend service setup"
 
-systemctl daemon-reload
+systemctl daemon-reload &>>$LOG_FILE_NAME
 VALIDATE $? "daemon-reloading.... services"
 
-systemctl enable backend
+systemctl enable backend &>>$LOG_FILE_NAME
 VALIDATE $? "enabling backed service"
 
-systemctl start backend
+systemctl start backend &>>$LOG_FILE_NAME
 VALIDATE $? "starting backend service"
 
 
