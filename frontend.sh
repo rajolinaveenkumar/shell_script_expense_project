@@ -38,24 +38,30 @@ CHECK_USER(){
 
 CHECK_USER
 
-dnf install nginx -y
+dnf install nginx -y &>>$LOG_FILE_NAME
 VALIDATE $? "Installing nginx"
 
-systemctl enable nginx
+systemctl enable nginx &>>$LOG_FILE_NAME
 VALIDATE $? "enabling nginx service"
 
-systemctl start nginx
+systemctl start nginx &>>$LOG_FILE_NAME
 VALIDATE $? "starting nginx service"
 
-rm -rf /usr/share/nginx/html/*
+rm -rf /usr/share/nginx/html/* &>>$LOG_FILE_NAME
 VALIDATE $? "removing default nginx content"
 
 
-curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip &>>$LOG_FILE_NAME
 VALIDATE $? "expense content download"
 
-cd /usr/share/nginx/html
+cd /usr/share/nginx/html &>>$LOG_FILE_NAME
 VALIDATE $? "redirect to html directory"
 
-unzip /tmp/frontend.zip
+unzip /tmp/frontend.zip &>>$LOG_FILE_NAME
 VALIDATE $? "unziping the content on html directory"
+
+cp /home/ec2-user/shell_script_expense_project/expense.conf /etc/nginx/default.d/expense.conf &>>$LOG_FILE_NAME
+VALIDATE $? "Copied expense config"
+
+systemctl restart nginx &>>$LOG_FILE_NAME
+VALIDATE $? "Restarting nginx"
