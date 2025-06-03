@@ -58,7 +58,7 @@ echo "Please enter your database password::"
 read -s PASSWORD
 echo "please enter your pswd: $PASSWORD"
 
-mysql -h 172.31.37.235 -u root -p$PASSWORD -e 'show databases;' &>>$LOG_FILE_NAME
+mysql -h 172.31.35.199 -u root -p$PASSWORD -e 'show databases;' &>>$LOG_FILE_NAME
 
 if [ $? -ne 0 ]
 then
