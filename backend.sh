@@ -69,7 +69,7 @@ cd /app &>>$LOG_FILE_NAME
 VALIDATE $? "redirect to /app"
 
 unzip /tmp/backend.zip &>>$LOG_FILE_NAME
-VALIDATE $? "unziping the content in /app directory"
+VALIDATE $? "unziping the content to /app directory"
 
 npm install &>>$LOG_FILE_NAME
 VALIDATE $? "npm install.. installing dependencies"
@@ -85,5 +85,14 @@ VALIDATE $? "enabling backed service"
 
 systemctl start backend &>>$LOG_FILE_NAME
 VALIDATE $? "starting backend service"
+
+dnf install mysql -y &>>$LOG_FILE_NAME
+VALIDATE $? "installing MYSQL"
+
+mysql -h 172.31.35.199 -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOG_FILE_NAME
+VALIDATE $? "Setting up the transactions schema and tables"
+
+systemctl restart backend &>>$LOG_FILE_NAME
+VALIDATE $? "restart backend"
 
 
