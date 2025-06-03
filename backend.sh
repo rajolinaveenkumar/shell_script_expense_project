@@ -86,6 +86,8 @@ VALIDATE $? "enabling backed service"
 systemctl start backend &>>$LOG_FILE_NAME
 VALIDATE $? "starting backend service"
 
+# preparing mysql schema
+
 dnf install mysql -y &>>$LOG_FILE_NAME
 VALIDATE $? "installing MYSQL"
 
