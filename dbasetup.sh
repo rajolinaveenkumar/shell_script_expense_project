@@ -38,19 +38,19 @@ CHECK_USER(){
 CHECK_USER
 
 
-dnf list installed mysql
+dnf list installed mysql &>>$LOG_FILE_NAME
 if [ $? -ne 0 ]
 then 
-    dnf install mysql-server -y
+    dnf install mysql-server -y &>>$LOG_FILE_NAME
     VALIDATE $? "Installing MYSQL"
 else
     echo -e "$Y MySQL is already ... INSTALLED $N" 
 fi 
 
-systemctl enable mysqld
+systemctl enable mysqld &>>$LOG_FILE_NAME
 VALIDATE $? "enabling MYSQL service"
 
-systemctl start mysqld
+systemctl start mysqld &>>$LOG_FILE_NAME
 VALIDATE $? "start MYSQL service"
 
 echo "Please enter your database password::"
