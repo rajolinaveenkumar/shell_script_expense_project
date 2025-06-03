@@ -62,8 +62,28 @@ VALIDATE $? "creating app directory"
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE_NAME
 VALIDATE $? "expense content download"
 
+rm -rf /app/* &>>$LOG_FILE_NAME
+VALIDATE $? "Deleting existing content in /app directory"
+
 cd /app &>>$LOG_FILE_NAME
 VALIDATE $? "redirect to /app"
 
-rm -rf /app/* &>>$LOG_FILE_NAME
-VALIDATE $? "Deleting existing content in /app directory"
+unzip /tmp/backend.zip &>>$LOG_FILE_NAME
+VALIDATE $? "unziping the content in /app directory"
+
+npm install &>>$LOG_FILE_NAME
+VALIDATE $? "npm install.. installing dependencies"
+
+cp /home/ec2-user/shell_script_expense_project/backend.service /etc/systemd/system/backend.service
+VALIDATE $? "backend service setup"
+
+systemctl daemon-reload
+VALIDATE $? "daemon-reloading.... services"
+
+systemctl enable backend
+VALIDATE $? "enabling backed service"
+
+systemctl start backend
+VALIDATE $? "starting backend service"
+
+
